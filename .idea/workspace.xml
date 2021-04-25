@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0cc79885-1549-44ca-8d17-58d5071c4902" name="Default Changelist" comment="" />
+    <list default="true" id="0cc79885-1549-44ca-8d17-58d5071c4902" name="Default Changelist" comment="Created Lexical Analyzer, Parser and Interpreter.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interpreter.js" beforeDir="false" afterPath="$PROJECT_DIR$/Interpreter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LexicalAnalyzer.js" beforeDir="false" afterPath="$PROJECT_DIR$/LexicalAnalyzer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parser.js" beforeDir="false" afterPath="$PROJECT_DIR$/Parser.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +19,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1rIe7Pv16ecurBNzji3FacCJE2i" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -26,6 +35,7 @@
     <property name="javascript.nodejs.core.library.configured.version" value="12.16.2" />
     <property name="javascript.nodejs.core.library.typings.version" value="12.20.10" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -53,10 +63,26 @@
       <workItem from="1618667864067" duration="3905000" />
       <workItem from="1618755231641" duration="4994000" />
       <workItem from="1618837105718" duration="1840000" />
+      <workItem from="1618838969125" duration="467000" />
+      <workItem from="1619009706066" duration="15000" />
+      <workItem from="1619362610132" duration="123000" />
+      <workItem from="1619366460206" duration="9545000" />
     </task>
+    <task id="LOCAL-00001" summary="Created Lexical Analyzer, Parser and Interpreter.">
+      <created>1618839137086</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1618839137086</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Created Lexical Analyzer, Parser and Interpreter." />
+    <option name="LAST_COMMIT_MESSAGE" value="Created Lexical Analyzer, Parser and Interpreter." />
   </component>
 </project>

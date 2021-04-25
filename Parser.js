@@ -110,7 +110,7 @@ function parseStatement(checkEnd = true, init = true) {
     } else if (currentLexeme.lexeme === "print") {
         parsePrint();
         return true;
-    } else if (currentLexeme.lexeme === "write") {
+    } else if (currentLexeme.lexeme === "read") {
         parseRead();
         return true;
     } else if (currentLexeme.lexeme === "}") {
@@ -254,8 +254,10 @@ function parseFactor() {
 function parseBoolExpression() {
     parseExpression();
     let currentLexeme = getLexeme();
+    let saveLexeme;
 
     if(currentLexeme.token === "rel") {
+        saveLexeme = getLexeme();
         currentLexemeIndex += 1;
         console.log(`\t\t\t\t\tIn line ${currentLexeme.line} lexeme "${currentLexeme.lexeme}"`)
     } else {
@@ -264,13 +266,18 @@ function parseBoolExpression() {
 
     parseExpression();
 
+    postfixCode.push({lexeme: saveLexeme.lexeme, token: saveLexeme.token});
+
     return true;
 }
 
 function parsePrint() {
     try {
         parseToken("print", "key word", "");
+        postfixCode.push({lexeme: "print", token: "key word"});
         parseToken("(", "bracket", "");
+        let currentLexeme = getLexeme();
+        postfixCode.push({lexeme: currentLexeme.lexeme, token: currentLexeme.token});
         parseName("word", "");
         parseToken(")", "bracket", "");
         parseName("end", "");
@@ -285,7 +292,10 @@ function parsePrint() {
 function parseRead() {
     try {
         parseToken("read", "key word", "");
+        postfixCode.push({lexeme: "read", token: "key word"});
         parseToken("(", "bracket", "");
+        let currentLexeme = getLexeme();
+        postfixCode.push({lexeme: currentLexeme.lexeme, token: currentLexeme.token});
         parseName("word", "");
         parseToken(")", "bracket", "");
         parseName("end", "");
@@ -304,17 +314,20 @@ function parseIf() {
         parseBoolExpression();
         parseToken(")", "bracket", "");
         parseToken("?", "punct", "");
+        postfixCode.push({lexeme: "?", token: "punct"});
         parseStatement(false);
 
         let currentLexeme = getLexeme();
 
         if (currentLexeme.lexeme === ":") {
             parseToken(":", "punct", "");
+            postfixCode.push({lexeme: ":", token: "punct"});
             parseStatement();
         } else {
             parseName("end", "");
         }
 
+        postfixCode.push({lexeme: "if", token: "key word"});
         return true;
     } catch (err) {
         console.error(`Error in "if" statement`);
@@ -325,6 +338,7 @@ function parseIf() {
 function parseDoWhile() {
     try {
         parseToken("do", "key word", "");
+        postfixCode.push({lexeme: "do", token: "key word"});
         parseToken("{", "bracket", "");
         parseStatementList();
         parseToken("}", "bracket", "");
