@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0cc79885-1549-44ca-8d17-58d5071c4902" name="Default Changelist" comment="Created Lexical Analyzer, Parser and Interpreter.">
+    <list default="true" id="0cc79885-1549-44ca-8d17-58d5071c4902" name="Default Changelist" comment="Almost finished.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Interpreter.js" beforeDir="false" afterPath="$PROJECT_DIR$/Interpreter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LexicalAnalyzer.js" beforeDir="false" afterPath="$PROJECT_DIR$/LexicalAnalyzer.js" afterDir="false" />
@@ -67,6 +67,11 @@
       <workItem from="1619009706066" duration="15000" />
       <workItem from="1619362610132" duration="123000" />
       <workItem from="1619366460206" duration="9545000" />
+      <workItem from="1619379307011" duration="51000" />
+      <workItem from="1619447218230" duration="6024000" />
+      <workItem from="1619530303499" duration="18000" />
+      <workItem from="1619532191417" duration="43000" />
+      <workItem from="1619707836603" duration="5301000" />
     </task>
     <task id="LOCAL-00001" summary="Created Lexical Analyzer, Parser and Interpreter.">
       <created>1618839137086</created>
@@ -75,14 +80,34 @@
       <option name="project" value="LOCAL" />
       <updated>1618839137086</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Almost finished.">
+      <created>1619379337646</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1619379337646</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created Lexical Analyzer, Parser and Interpreter." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created Lexical Analyzer, Parser and Interpreter." />
+    <MESSAGE value="Almost finished." />
+    <option name="LAST_COMMIT_MESSAGE" value="Almost finished." />
   </component>
 </project>

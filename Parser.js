@@ -95,7 +95,6 @@ function parseStatement(checkEnd = true, init = true) {
 
         postfixCode.push({lexeme: currentLexeme.lexeme, token: currentLexeme.token});
 
-        // may cause an error
         parseStatement(true,false)
         return true;
     } else if (currentLexeme.token === "word") {
@@ -312,22 +311,28 @@ function parseIf() {
         parseToken("if", "key word", "");
         parseToken("(", "bracket", "");
         parseBoolExpression();
+        let jfToken = {lexeme: "JF", token: "JF", jumpToIdx: null};
+        postfixCode.push(jfToken);
         parseToken(")", "bracket", "");
         parseToken("?", "punct", "");
-        postfixCode.push({lexeme: "?", token: "punct"});
+        // postfixCode.push({lexeme: "?", token: "punct"});
         parseStatement(false);
+        jfToken.jumpToIdx = postfixCode.length;
 
         let currentLexeme = getLexeme();
 
         if (currentLexeme.lexeme === ":") {
             parseToken(":", "punct", "");
-            postfixCode.push({lexeme: ":", token: "punct"});
+            // postfixCode.push({lexeme: ":", token: "punct"});
+            let jumpToken = {lexeme: "JUMP", token: "JUMP", jumpToIdx: null};
+            postfixCode.push(jumpToken);
             parseStatement();
+            jumpToken.jumpToIdx = postfixCode.length - 1;
         } else {
             parseName("end", "");
         }
 
-        postfixCode.push({lexeme: "if", token: "key word"});
+        // postfixCode.push({lexeme: "if", token: "key word"});
         return true;
     } catch (err) {
         console.error(`Error in "if" statement`);
@@ -337,14 +342,19 @@ function parseIf() {
 
 function parseDoWhile() {
     try {
+        let jumpToken = {lexeme: "JUMP", token: "JUMP", jumpToIdx: postfixCode.length - 1};
+        let jfToken = {lexeme: "JF", token: "JF", jumpToIdx: null};
         parseToken("do", "key word", "");
-        postfixCode.push({lexeme: "do", token: "key word"});
+        // postfixCode.push({lexeme: "do", token: "key word"});
         parseToken("{", "bracket", "");
         parseStatementList();
         parseToken("}", "bracket", "");
         parseToken("while", "key word", "");
         parseToken("(", "bracket", "");
         parseBoolExpression();
+        postfixCode.push(jfToken);
+        postfixCode.push(jumpToken);
+        jfToken.jumpToIdx = postfixCode.length - 1;
         parseToken(")", "bracket", "");
         parseName("end", "");
     } catch (err) {
@@ -358,3 +368,5 @@ parseProgram();
 console.log("\n\n");
 console.error(postfixCode);
 Interpreter(postfixCode);
+
+

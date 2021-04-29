@@ -1,4 +1,4 @@
-var readlineSync = require('readline-sync');
+var readlineSync = require("readline-sync");
 
 function interpreter(postfixCode) {
 
@@ -7,34 +7,26 @@ function interpreter(postfixCode) {
     let variable;
     let type;
     let previous = {};
-    let ifExpr = true;
-    let doWhileExpr = false;
-    let doPostfixCode = [];
 
-    while (postfixCode.length > 0) {
+    for (let i = 0; i < postfixCode.length; i++) {
 
-        let item = postfixCode[0];
-        postfixCode = postfixCode.slice(1);
-
-        if (doWhileExpr === true) {
-            doPostfixCode.push(item);
-        }
+        let item = postfixCode[i];
+        console.log(item);
 
         if (!Number.isNaN(+item.lexeme)) {
-            stack.push(+item.lexeme);
-        } else if (item.token === "word" && scope.filter(element => element.variable === item.lexeme).length === 1 && previous.lexeme !== "=") {
+            stack.push({value: +item.lexeme});
+        } else if (item.token === "word" && scope.filter(element => element.variable === item.lexeme).length === 1 && previous.lexeme !== "int") {
             if (scope.filter(element => element.variable === item.lexeme).length === 1) {
                 scope.forEach(element => {
                     if (element.variable === item.lexeme) {
-                        stack.push(element.value);
+                        stack.push(element);
                     }
                 })
             }
         } else if (item.lexeme === "true" || item.lexeme === "false") {
             stack.push(item.lexeme);
         } else if (item.lexeme === "print") {
-            item = postfixCode[0];
-            postfixCode = postfixCode.slice(1);
+            item = postfixCode[i];
             if (scope.filter(element => element.variable === item.lexeme).length === 0) {
                 console.error(`Variable "${item.lexeme}" is not exists`);
                 throw "Init Error";
@@ -46,8 +38,7 @@ function interpreter(postfixCode) {
             });
         } else if (item.lexeme === "read") {
             let value = readlineSync.question("");
-            let item = postfixCode[0];
-            postfixCode = postfixCode.slice(1);
+            let item = postfixCode[i];
             scope.forEach(element => {
                 if (element.variable === item.lexeme) {
                     element.value = +value;
@@ -65,91 +56,63 @@ function interpreter(postfixCode) {
                             console.error(`Variable "${variable}" is not exists`);
                             throw "Init Error";
                         }
-                        scope.push({type: type, variable: variable, value: 0})
+                        let ident = {type: type, variable: variable, value: 0}
+                        scope.push(ident)
+                        stack.push(ident)
                         type = undefined;
+                        continue;
                     } else if (type && scope.filter(element => element.variable === variable).length > 0) {
                         console.error(`Variable "${variable}" is already exists`);
                         throw "Init Error";
                     }
                 }
-                // console.log("Current stack:", stack);
-                let second = stack.pop();
-                let first = stack.pop();
+                // console.log("Current stack", stack);
+                let second, first;
+                if (item.token === "JF") {
+                    first = stack.pop();
+                    if (first.value === false) {
+                        i = item.jumpToIdx;
+                    }
+                } else if (item.token === "JUMP") {
+                    first = stack.pop();
+                    i = item.jumpToIdx;
+                } else {
+                    second = stack.pop();
+                    first = stack.pop();
+                }
                 if (item.lexeme === "+") {
-                    stack.push(first + second);
+                    stack.push({value: first.value + second.value});
                 } else if (item.lexeme === "-") {
-                    stack.push(first - second);
+                    stack.push({value: first.value - second.value});
                 } else if (item.lexeme === "*") {
-                    stack.push(first * second);
+                    stack.push({value: first.value * second.value});
                 } else if (item.lexeme === "/") {
                     if (second === 0) {
                         console.error("Can not divide by 0");
                         throw "Divide Error";
                     }
-                    stack.push(first / second);
+                    stack.push({value: first.value / second.value});
                 } else if (item.lexeme === "^") {
-                    stack.push(first ** second);
+                    stack.push({value: first.value ** second.value});
                 } else if (item.lexeme === "=") {
-                    scope.forEach(element => {
-                        if (element.variable === variable && second !== undefined) {
-                            if (checkType(second, element)) {
-                                element.value = second;
-                            } else {
-                                console.error(`"${element.variable}" has type "${element.type}" type but got another type`)
-                                throw "Type Error";
-                            }
-                        }
-                    })
+                    if (checkType(second.value, first)) {
+                        first.value = second.value;
+                    } else {
+                        console.error(`"${first.variable}" has type "${first.type}" type but got another type`)
+                        throw "Type Error";
+                    }
                 } else if (item.token === "rel") {
-                    scope.forEach(element => {
-                        if (element.variable === variable && second !== undefined && !doWhileExpr) {
-                            if (item.lexeme === "<" && element.value < second) {
-                                ifExpr = true;
-                            } else if (item.lexeme === ">" && element.value > second) {
-                                ifExpr = true;
-                            } else if (item.lexeme === ">=" && element.value >= second) {
-                                ifExpr = true;
-                            } else if (item.lexeme === "<=" && element.value <= second) {
-                                ifExpr = true;
-                            } else if (item.lexeme === "==" && element.value == second) {
-                                ifExpr = true;
-                            } else {
-                                ifExpr = false;
-                            }
-                        } else if (element.variable === variable && second !== undefined && doWhileExpr) {
-                            if (item.lexeme === "<" && element.value < second) {
-                                postfixCode = doPostfixCode.concat(postfixCode);
-                                doPostfixCode = [];
-                            } else if (item.lexeme === ">" && element.value > second) {
-                                postfixCode = doPostfixCode.concat(postfixCode);
-                                doPostfixCode = [];
-                            } else if (item.lexeme === ">=" && element.value >= second) {
-                                postfixCode = doPostfixCode.concat(postfixCode);
-                                doPostfixCode = [];
-                            } else if (item.lexeme === "<=" && element.value <= second) {
-                                postfixCode = doPostfixCode.concat(postfixCode);
-                                doPostfixCode = [];
-                            } else if (item.lexeme === "==" && element.value == second) {
-                                postfixCode = doPostfixCode.concat(postfixCode);
-                                doPostfixCode = [];
-                            } else {
-                                doWhileExpr = false;
-                                doPostfixCode = [];
-                            }
-                        }
-                    });
-                } else if (item.lexeme === ":" && ifExpr) {
-                    while (item.lexeme !== "if") {
-                        item = postfixCode[0];
-                        postfixCode = postfixCode.slice(1);
+                    if (item.lexeme === "==") {
+                        stack.push({value: first.value === second.value})
+                    } else if (item.lexeme === "<") {
+                        stack.push({value: first.value < second.value})
+                    } else if (item.lexeme === ">") {
+                        stack.push({value: first.value > second.value})
+                    } else if (item.lexeme === ">=") {
+                        stack.push({value: first.value >= second.value})
+                    } else if (item.lexeme === "<=") {
+                        stack.push({value: first.value <= second.value})
                     }
-                } else if (item.lexeme === "?" && !ifExpr) {
-                    while (item.lexeme !== ":") {
-                        item = postfixCode[0];
-                        postfixCode = postfixCode.slice(1);
-                    }
-                } else if (item.lexeme === "do") {
-                    doWhileExpr = true;
                 }
             } catch (err) {
                 if (err === "Type Error") {

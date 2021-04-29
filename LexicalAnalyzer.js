@@ -241,18 +241,14 @@ let line = 1;
 function LexicalAnalyzer() {
     const program =
         'program testProgram {\n' +
-    '    int a = 10;' +
-    '    do {' +
-    '        a = a - 2;' +
-    '    } while (a > 6);' +
-    '    print(a);' +
-    '    int b = 100;' +
-    '    print(b);' +
-    '    int c = 0;' +
-    '    read(c);' +
-    '    c = c * 2;' +
-    '    print(c);' +
-    '}\n'
+        '    int a = 0;' +
+        '    int b = 100;' +
+        '    do {' +
+        '        a = a + 1;' +
+        '        b = 30;' +
+        '    } while (a < 10);' +
+        '    a = a + b;' +
+        '}\n'
     const tokens = []
     const identifiers = []
     let charsCounter = 0
